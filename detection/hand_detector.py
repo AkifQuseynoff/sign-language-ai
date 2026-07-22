@@ -37,3 +37,13 @@ class HandDetector:
             mp_image,
             timestamp_ms
         )
+
+    def get_landmark_points(self, hand_landmarks):
+        points = []
+
+        for landmark in hand_landmarks:
+            points.append(
+                (landmark.x, landmark.y, landmark.z)
+            )
+
+        return points
