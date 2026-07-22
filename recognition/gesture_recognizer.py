@@ -1,4 +1,4 @@
-from features.feature_extractor import FeatureExtractor
+from feature_extraction.feature_extractor import FeatureExtractor
 from detection.hand_detector import HandDetector
 from recognition.classifier import GestureClassifier
 
