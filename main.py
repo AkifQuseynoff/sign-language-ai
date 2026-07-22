@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import math
 import numpy as np
-from feature_extractor import FeatureExtractor
+from features.feature_extractor import FeatureExtractor
 from data_collector import DataCollector
 import joblib
 import time
