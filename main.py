@@ -1,10 +1,11 @@
 from features.feature_extractor import FeatureExtractor
 from camera.camera import Camera
 from detection.hand_detector import HandDetector
-import joblib
+from recognition.classifier import GestureClassifier
 import cv2
+import numpy as np
 
-model=joblib.load("models/letters_model_v1.pkl")
+model= GestureClassifier()
 
 def get_landmark_points(hand_landmarks):
     points = []
@@ -17,11 +18,9 @@ def get_landmark_points(hand_landmarks):
     return points
 
 hand_detector = HandDetector()
-
 feature_extractor = FeatureExtractor()
-
-# Camera
 camera = Camera()
+
 frame_id = 0
 prediction_counter = 0
 prediction=""
@@ -40,7 +39,8 @@ while True:
         prediction_counter += 1
         if prediction_counter == 5:
             prediction_counter = 0
-            prediction = model.predict([features])[0]
+            print(np.array(features).shape)
+            prediction = model.predict(features)
     # Draw landmarks
     if result.hand_landmarks:
         for hand in result.hand_landmarks:
