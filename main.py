@@ -5,7 +5,7 @@ import numpy as np
 from features.feature_extractor import FeatureExtractor
 from data_collection.data_collector import DataCollector
 import joblib
-import time
+from camera.camera import Camera
 
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
@@ -40,14 +40,14 @@ detector = vision.HandLandmarker.create_from_options(options)
 feature_extractor = FeatureExtractor()
 
 # Camera
-cap = cv2.VideoCapture(0)
+camera = Camera()
 frame_id = 0
 prediction_counter = 0
 prediction=""
 while True:
-    ret, frame = cap.read()
+    frame = camera.read()
 
-    if not ret:
+    if frame is None:
         break
 
     # Convert BGR to RGB
@@ -95,5 +95,5 @@ while True:
 
 
 
-cap.release()
+camera.release()
 cv2.destroyAllWindows()

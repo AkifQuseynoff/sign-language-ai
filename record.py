@@ -32,7 +32,7 @@ options = vision.HandLandmarkerOptions(
 
 detector = vision.HandLandmarker.create_from_options(options)
 feature_extractor = FeatureExtractor()
-collector = DataCollector("dataset/letters_v1.csv")
+collector = DataCollector("data/letters_v1.csv")
 
 # Camera
 cap = cv2.VideoCapture(0)
