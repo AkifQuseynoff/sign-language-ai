@@ -1,4 +1,4 @@
-from hand_geometry import HandGeometry
+from features.hand_geometry import HandGeometry
 class FeatureExtractor:
     def __init__(self):
         self.HAND_BONES = [
