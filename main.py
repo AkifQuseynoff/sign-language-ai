@@ -6,6 +6,7 @@ from features.feature_extractor import FeatureExtractor
 from data_collection.data_collector import DataCollector
 import joblib
 from camera.camera import Camera
+from detection.hand_detector import HandDetector
 
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
@@ -22,21 +23,8 @@ def get_landmark_points(hand_landmarks):
 
     return points
 
-# Create hand detector
-base_options = python.BaseOptions(
-    model_asset_path="models/hand_landmarker.task"
-)
+hand_detector = HandDetector()
 
-options = vision.HandLandmarkerOptions(
-    base_options=base_options,
-    running_mode=vision.RunningMode.VIDEO,
-    num_hands=2,
-    min_hand_detection_confidence=0.5,
-    min_hand_presence_confidence=0.5,
-    min_tracking_confidence=0.5
-)
-
-detector = vision.HandLandmarker.create_from_options(options)
 feature_extractor = FeatureExtractor()
 
 # Camera
@@ -50,19 +38,7 @@ while True:
     if frame is None:
         break
 
-    # Convert BGR to RGB
-    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-    # Create MediaPipe image
-    mp_image = mp.Image(
-        image_format=mp.ImageFormat.SRGB,
-        data=rgb_frame
-    )
-
-    # Detect hands
-    frame_id += 1
-    timestamp_ms = frame_id * 33
-    result = detector.detect_for_video(mp_image,timestamp_ms)
+    result = hand_detector.detect(frame)
 
     if result.hand_landmarks:
         hand = result.hand_landmarks[0]
