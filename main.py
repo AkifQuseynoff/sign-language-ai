@@ -1,15 +1,8 @@
-import cv2
-import mediapipe as mp
-import math
-import numpy as np
 from features.feature_extractor import FeatureExtractor
-from data_collection.data_collector import DataCollector
-import joblib
 from camera.camera import Camera
 from detection.hand_detector import HandDetector
-
-from mediapipe.tasks import python
-from mediapipe.tasks.python import vision
+import joblib
+import cv2
 
 model=joblib.load("models/letters_model_v1.pkl")
 
