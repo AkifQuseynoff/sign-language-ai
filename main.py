@@ -14,22 +14,20 @@ prediction = ""
 
 while True:
     frame = camera.read()
-
     if frame is None:
         break
 
-    result = hand_detector.detect(frame)
+    detection_result = hand_detector.detect(frame)
 
-    if result.hand_landmarks:
-        hand = result.hand_landmarks[0]
-        points = hand_detector.get_landmark_points(hand)
+    if detection_result.hand_landmarks:
+        points = hand_detector.get_landmark_points(detection_result)
         features = feature_extractor.extract_features(points)
         new_prediction = classifier.update(features)
 
         if new_prediction is not None:
             prediction = new_prediction
     # Draw landmarks
-    display.show(frame, result, prediction)
+    display.show(frame, detection_result, prediction)
 
     if display.should_close():
         break

@@ -38,7 +38,8 @@ class HandDetector:
             timestamp_ms
         )
 
-    def get_landmark_points(self, hand_landmarks):
+    def get_landmark_points(self, detection_result):
+        hand_landmarks= detection_result.hand_landmarks[0]
         points = []
 
         for landmark in hand_landmarks:
