@@ -1,20 +1,16 @@
-# ASL gestures datasets
+# ASL Gesture Datasets
 
 ## Overview
 
-the datasets contain gestures I have used to train models
+This folder stores CSV datasets used to train the gesture classifiers. Each row contains a gesture label, detected hand side, and 60 geometric hand-landmark features.
+
+The recording screen in the application lists the CSV files in this folder and appends new samples to the selected file.
+
+## Dataset Files
 
 ### gestures.csv
-- Date: July 2026
 
-- Samples per gesture: 100
-
-- Total gestures: 3
-
-- Total samples: 300
-
-
-Gestures:
+Dataset for three static hand gestures:
 
 - Open hand
 - Fist
@@ -22,30 +18,13 @@ Gestures:
 
 ### letters_v1.csv
 
-- Version: 1.0
+Version 1 dataset for static ASL letters, including:
 
-- Date: July 2026
+- A, B, C, D, F
+- L, O, X, Y
 
-- Samples per gesture: 100
+## Recording Samples
 
-- Total gestures: 10
+In the application, choose a CSV file, enter a gesture name, and press **Start**. A sample is appended every seventh frame where a hand is detected.
 
-- Total samples: 1000
-
-Gestures:
-- A
-- B
-- C
-- D
-- F
-- L
-- O
-- X
-- Y
-
-Letters are selected baesed on their somplicity and lack of movement
-
-
-
-
-
+New files should use the same CSV layout: `label`, `hand`, followed by the feature columns.

@@ -1,43 +1,27 @@
-# ASL gestures recognition models
+# ASL Gesture Recognition Models
 
 ## Overview
-These are the versions of models used to recognize gestures of ASL language
+
+This folder contains the MediaPipe hand-landmark model and trained gesture classifiers. The recognition screen lists the `.pkl` files here and reloads the selected classifier automatically.
+
+## Model Files
 
 ### hand_landmarker.task
-model used by mediapipe to recognize hand positions in the frame
+
+MediaPipe task model used to detect hands and return 21 landmarks per hand.
 
 ### gesture_model_v1.pkl
-- Version: 1.0
 
-- Date: July 2026
+Version 1 classifier for three static gestures:
 
-- Total gestures: 3
-
-- accuracy 100%
-
-Gestures:
 - Open hand
 - Fist
 - Pointing hand
 
 ### letters_model_v1.pkl
-- Version: 1.0
 
-- Date: July 2026
+Version 1 classifier for static ASL letters, including A, B, C, D, F, L, O, X, and Y.
 
-- Total gestures: 10
+## Using a Model
 
-- accuracy 98%
-
-Letters:
-- A
-- B
-- C
-- D
-- F
-- L
-- O
-- X
-- Y
-
-Letters are chosen because of their difference between each other and the fact that their gestures are static
+Place a compatible scikit-learn `.pkl` model in this folder. It will appear in the recognition model selector the next time the application opens.

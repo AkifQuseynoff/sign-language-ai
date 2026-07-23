@@ -1,26 +1,54 @@
-from recognition.gesture_recognizer import GestureRecognizer
+"""Recognition entry point and reusable camera/classifier pipeline."""
+
 from camera.camera import Camera
-from UI.display import Display
- 
-camera = Camera()
-recognizer = GestureRecognizer()
-display = Display()
-prediction = ""
+from recognition.gesture_recognizer import GestureRecognizer
 
-while True:
-    frame = camera.read()
-    if frame is None:
-        break
-    #recognize gesture 
-    detection_result , new_prediction = recognizer.process_frame(frame)
-    if new_prediction is not None:
-        prediction = new_prediction
 
-    # Draw landmarks
-    display.show(frame, detection_result, prediction)
+class RecognitionPipeline:
+    """Owns the camera and recognizer for either the desktop UI or CLI preview."""
 
-    if display.should_close():
-        break
+    def __init__(self, model_path="models/letters_model_v1.pkl"):
+        self.camera = Camera()
+        self.recognizer = GestureRecognizer(model_path)
+        self.prediction = None
+        self.confidence = None
+        self.last_frame = None
 
-camera.release()
-display.close()
+    def process_next_frame(self):
+        frame = self.camera.read()
+        if frame is None:
+            return None, self.prediction, self.confidence
+
+        self.last_frame = frame
+
+        detection_result, result = self.recognizer.process_frame_with_confidence(frame)
+        if result is not None:
+            self.prediction, self.confidence = result
+
+        return detection_result, self.prediction, self.confidence
+
+    def close(self):
+        self.camera.release()
+
+
+def run_preview():
+    """Keep the original OpenCV preview available when main.py is run directly."""
+    from UI.display import Display
+
+    pipeline = RecognitionPipeline()
+    display = Display()
+    try:
+        while True:
+            detection_result, prediction, _ = pipeline.process_next_frame()
+            if detection_result is None:
+                break
+            display.show(pipeline.last_frame, detection_result, prediction or "")
+            if display.should_close():
+                break
+    finally:
+        pipeline.close()
+        display.close()
+
+
+if __name__ == "__main__":
+    run_preview()
