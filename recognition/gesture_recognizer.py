@@ -3,7 +3,7 @@ from detection.hand_detector import HandDetector
 from recognition.classifier import GestureClassifier
 
 class GestureRecognizer:
-    def __init__(self, model_path="models/letters_model_v1.pkl"):
+    def __init__(self, model_path="models/letters_model_v2.pkl"):
         self.classifier = GestureClassifier(model_path)
         self.hand_detector = HandDetector()
         self.feature_extractor = FeatureExtractor()

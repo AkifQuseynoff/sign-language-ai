@@ -7,7 +7,7 @@ from recognition.gesture_recognizer import GestureRecognizer
 class RecognitionPipeline:
     """Owns the camera and recognizer for either the desktop UI or CLI preview."""
 
-    def __init__(self, model_path="models/letters_model_v1.pkl"):
+    def __init__(self, model_path="models/letters_model_v2.pkl"):
         self.camera = Camera()
         self.recognizer = GestureRecognizer(model_path)
         self.prediction = None

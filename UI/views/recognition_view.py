@@ -73,7 +73,7 @@ class RecognitionView(tk.Frame):
                                            width=28, font=("Helvetica", 13))
         self.model_selector.pack(side="right")
         if self.model_selector["values"]:
-            default = "letters_model_v1.pkl"
+            default = "letters_model_v2.pkl"
             self.model_name.set(default if default in self.model_selector["values"] else self.model_selector["values"][0])
         self.model_selector.bind("<<ComboboxSelected>>", self._reload_selected_model)
 

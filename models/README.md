@@ -10,17 +10,17 @@ This folder contains the MediaPipe hand-landmark model and trained gesture class
 
 MediaPipe task model used to detect hands and return 21 landmarks per hand.
 
-### gesture_model_v1.pkl
+### gesture_model_v2.pkl
 
-Version 1 classifier for three static gestures:
+Version 2 classifier for three static gestures:
 
 - Open hand
 - Fist
 - Pointing hand
 
-### letters_model_v1.pkl
+### letters_model_v2.pkl
 
-Version 1 classifier for static ASL letters, including A, B, C, D, F, L, O, X, and Y.
+Version 2 classifier for static ASL letters, including A, B, C, D, F, L, O, X, and Y.
 
 ## Using a Model
 

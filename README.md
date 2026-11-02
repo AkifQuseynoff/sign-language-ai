@@ -77,5 +77,7 @@ python main.py
 Train a model from a dataset:
 
 ```bash
-python training/train_model.py
+python training/train_model.py --data data/letters_v2.csv --output models/letters_model_v2.pkl
 ```
+
+The script tests on the last 20% of each gesture's samples, not a random 20%, because neighbouring samples are nearly identical and a random split overstates accuracy. After testing, it trains on all samples and saves the model.
