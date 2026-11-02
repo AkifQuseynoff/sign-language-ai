@@ -59,29 +59,43 @@ class FeatureExtractor:
                 angles.append(0.0)
         return angles
 
+    def palm_size(self, points):
+        """Distance from the wrist to the middle finger knuckle.
+
+        Dividing every length by this makes the features the same whether the
+        hand is close to the camera or far away from it.
+        """
+        size = HandGeometry.distance(points[0], points[9])
+        if size < 1e-8:
+            return 1.0
+        return size
+
     def extract_bone_lengths(self, points):
         lengths = []
+        palm = self.palm_size(points)
         for a, b in self.HAND_BONES:
             length = HandGeometry.distance(points[a], points[b])
-            lengths.append(length)
+            lengths.append(length / palm)
         return lengths
-    
+
     def extract_tip_to_tip_distances(self, points):
         distances = []
+        palm = self.palm_size(points)
         for i in range(len(self.FINGERTIPS)):
             for j in range(i + 1, len(self.FINGERTIPS)):
                 a = self.FINGERTIPS[i]
                 b = self.FINGERTIPS[j]
                 dist = HandGeometry.distance(points[a], points[b])
-                distances.append(dist)
+                distances.append(dist / palm)
         return distances
-    
+
     def extract_wrist_to_tip_distances(self, points):
         distances = []
+        palm = self.palm_size(points)
         wrist = points[0]
         for tip in self.FINGERTIPS:
             dist = HandGeometry.distance(wrist, points[tip])
-            distances.append(dist)
+            distances.append(dist / palm)
         return distances
     
     def extract_finger_vectors(self, points):

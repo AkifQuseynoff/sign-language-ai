@@ -2,7 +2,7 @@ import joblib
 import numpy as np
 class GestureClassifier:
 
-    def __init__(self, model_path="models/letters_model_v1.pkl"):
+    def __init__(self, model_path="models/letters_model_v2.pkl"):
         self.model = joblib.load(model_path)
         self.prediction_counter = 0
 

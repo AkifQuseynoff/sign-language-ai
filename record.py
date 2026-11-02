@@ -8,7 +8,7 @@ from UI.display import Display
 camera = Camera()
 hand_detector = HandDetector()
 feature_extractor = FeatureExtractor()
-collector = DataCollector("data/letters_v1.csv")
+collector = DataCollector("data/letters_v2.csv")
 display = Display()
 
 frame_counter = 0
