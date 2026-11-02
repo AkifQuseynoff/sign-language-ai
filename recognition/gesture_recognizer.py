@@ -20,5 +20,8 @@ class GestureRecognizer:
             points = self.hand_detector.get_landmark_points(detection_result)
             features = self.feature_extractor.extract_features(points)
             new_prediction = self.classifier.update_with_confidence(features)
-            
+        else:
+            # No hand in view: start fresh so old frames don't affect the next hand.
+            self.classifier.reset()
+
         return detection_result, new_prediction

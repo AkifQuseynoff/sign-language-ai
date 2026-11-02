@@ -142,12 +142,15 @@ class RecognitionView(tk.Frame):
                 if now - last_frame_time >= 0.02 and self.events.qsize() < 3:
                     self.events.put(("frame", pipeline.last_frame.copy()))
                     last_frame_time = now
-                if prediction is not None:
-                    value = (prediction, confidence)
-                    if value != last_value:
-                        self.events.put(("prediction", value))
+                # Round so the screen only updates when the shown number changes.
+                if confidence is not None:
+                    confidence = round(confidence, 1)
+                value = (prediction, confidence)
+                if value != last_value:
+                    self.events.put(("prediction", value))
+                    if prediction is not None and (last_value is None or prediction != last_value[0]):
                         print(f"Prediction: {prediction} | Confidence: {confidence:.1f}%")
-                        last_value = value
+                    last_value = value
         except Exception as error:
             self.events.put(("status", f"Recognition unavailable: {error}"))
         finally:
@@ -164,8 +167,13 @@ class RecognitionView(tk.Frame):
                 self.status.set(payload)
             elif event == "prediction":
                 prediction, confidence = payload
-                self.prediction.set(str(prediction))
-                self.confidence.set(f"{confidence:.1f} %")
+                if confidence is None:
+                    # No hand in view.
+                    self.prediction.set("—")
+                    self.confidence.set("— %")
+                else:
+                    self.prediction.set("Unsure" if prediction is None else str(prediction))
+                    self.confidence.set(f"{confidence:.1f} %")
             elif event == "frame":
                 self._show_frame(payload)
 

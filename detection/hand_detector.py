@@ -5,6 +5,11 @@ import mediapipe as mp
 
 
 class HandDetector:
+    # The datasets were recorded with the right hand. MediaPipe names hands as
+    # if the image were a mirrored selfie, but our camera image is not
+    # mirrored, so a real right hand is reported as "Left".
+    TRAINED_SIDE = "Left"
+
     def __init__(self, model_path="models/hand_landmarker.task"):
         base_options = python.BaseOptions(
             model_asset_path=model_path
@@ -38,13 +43,25 @@ class HandDetector:
             timestamp_ms
         )
 
+    def get_side(self, detection_result):
+        """MediaPipe's name for the first hand: "Left", "Right" or None."""
+        try:
+            return detection_result.handedness[0][0].category_name
+        except (AttributeError, IndexError):
+            return None
+
     def get_landmark_points(self, detection_result):
         hand_landmarks= detection_result.hand_landmarks[0]
         points = []
 
+        # The other hand is flipped left-to-right so it looks like the hand
+        # the models were trained on.
+        mirror = self.get_side(detection_result) not in (self.TRAINED_SIDE, None)
+
         for landmark in hand_landmarks:
+            x = 1 - landmark.x if mirror else landmark.x
             points.append(
-                (landmark.x, landmark.y, landmark.z)
+                (x, landmark.y, landmark.z)
             )
 
         return points

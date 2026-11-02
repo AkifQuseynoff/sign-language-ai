@@ -22,7 +22,10 @@ class RecognitionPipeline:
         self.last_frame = frame
 
         detection_result, result = self.recognizer.process_frame_with_confidence(frame)
-        if result is not None:
+        if result is None:
+            # No hand in view, so there is nothing to show.
+            self.prediction, self.confidence = None, None
+        else:
             self.prediction, self.confidence = result
 
         return detection_result, self.prediction, self.confidence
